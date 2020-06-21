@@ -1,6 +1,6 @@
 # 🔶 EliteHack
 
-## 🔶 EliteHack -  Simple cheat for CS:GO
+## 🔶 EliteHack -  Simple external cheat for CS:GO, written on C# 
 
 ### 📃 Functions: 
 
