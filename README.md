@@ -1,8 +1,8 @@
-# EliteHack
+# 🔶 EliteHack
 
-## EliteHack -  Simple cheat for CS:GO
+## 🔶 EliteHack -  Simple cheat for CS:GO
 
-### Functions: 
+### 📃 Functions: 
 
 - ESP(wh)
 - BHOP
