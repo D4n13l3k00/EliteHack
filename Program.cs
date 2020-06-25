@@ -6,20 +6,23 @@ namespace EliteHack
 {
     class Program
     {
+
+        #region Нужные переменные
         static Memory mem;
-        private static int client_dll;
-        // Статус функций
-        private static bool glow = false;
-        private static bool bhop = false;
-        private static bool trigger = false;
-        private static bool antiflash = false;
-        // Кнопки
-        private static long glowkey = 0x61;
-        private static long bhopkey = 0x62;
-        private static long trigkey = 0x63;
-        private static long trighkey = 0x12;
-        private static long antiflashkey = 0x64;
-        // Оффсеты
+        static int client_dll;
+        static bool glow = false;
+        static bool bhop = false;
+        static bool trigger = false;
+        static bool antiflash = false;
+        #endregion
+        #region Коды клавиш
+        static long glowkey = 0x61;
+        static long bhopkey = 0x62;
+        static long trigkey = 0x63;
+        static long trighkey = 0x12;
+        static long antiflashkey = 0x64;
+        #endregion
+        #region Оффсеты
         class Offsets
         {
             public const Int32 health = 0x100;
@@ -34,10 +37,14 @@ namespace EliteHack
             public const Int32 m_iCrosshairId = 0xB3E4;
             public const Int32 m_flFlashDuration = 0xA420;
         }
+        #endregion
         static void Main()
         {
+            #region Начальное приветствие
             Console.Title = "EliteHack";
             title();
+            #endregion
+            #region Поиск процесса CS:GO
             try
             {
                 Process csgo = Process.GetProcessesByName("csgo")[0];
@@ -59,6 +66,8 @@ namespace EliteHack
                 Console.ReadKey(true);
                 Environment.Exit(1);
             }
+            #endregion
+            #region Запуск потоков чита
             Thread glowthread = new Thread(new ThreadStart(GlowThread));
             glowthread.Start();
             Thread bhopthread = new Thread(new ThreadStart(BhopThread));
@@ -67,6 +76,8 @@ namespace EliteHack
             triggerthread.Start();
             Thread antiflashthread = new Thread(new ThreadStart(AntiFlashThread));
             antiflashthread.Start();
+            #endregion
+            #region Проверка нажатия клавиш(on/off functions)
             while (true)
             {
                 if (Convert.ToBoolean(GetAsyncKeyState(glowkey)))
@@ -137,7 +148,9 @@ namespace EliteHack
                 Thread.Sleep(100);
 
             }
+            #endregion
         }
+        #region Интерфейс часть консоли
         [DllImport("user32.dll")]
         public static extern int GetAsyncKeyState(long vKey);
         // Заголовок
@@ -162,6 +175,8 @@ namespace EliteHack
             Console.WriteLine("---===+++===++++===+++===---");
             Console.WriteLine("");
         }
+        #endregion
+        #region GLOW
         public static void DrawEntityHP(int GlowIndex, float HP)
         {
             int GlowObject = mem.Read<int>(client_dll + Offsets.glowobjectmanager);
@@ -172,7 +187,6 @@ namespace EliteHack
             mem.Write(GlowObject + (GlowIndex * 0x38) + 0x24, true);
             mem.Write(GlowObject + (GlowIndex * 0x38) + 0x25, false);
         }
-        // ПОТОКИ ФУНКЦИЙ ЧИТА
         public static void GlowThread()
         {
             while (true)
@@ -200,6 +214,9 @@ namespace EliteHack
                 else { Thread.Sleep(100); }
             }
         }
+
+        #endregion
+        #region BHOP
         public static void BhopThread()
         {
             while (true)
@@ -219,6 +236,8 @@ namespace EliteHack
                 else { Thread.Sleep(100); }
             }
         }
+        #endregion
+        #region TriggerBot
         public static void TriggerThread()
         {
             while (true)
@@ -246,6 +265,8 @@ namespace EliteHack
                 else { Thread.Sleep(100); }
             }
         }
+        #endregion
+        #region AntiFlash
         public static void AntiFlashThread()
         {
             while(true)
@@ -262,5 +283,6 @@ namespace EliteHack
                 else { Thread.Sleep(100); }
             }
         }
+        #endregion
     }
 }
