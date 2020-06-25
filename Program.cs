@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 namespace EliteHack
@@ -22,14 +23,14 @@ namespace EliteHack
         class Offsets
         {
             public const Int32 health = 0x100;
-            public const Int32 LocalPlayer = 0xD3BBEC;
+            public const Int32 LocalPlayer = 0xD3ABEC;
             public const Int32 TeamNum = 0xF4;
-            public const Int32 entitylist = 0x4D5022C;
-            public const Int32 glowobjectmanager = 0x5298070;
+            public const Int32 entitylist = 0x4D4F25C;
+            public const Int32 glowobjectmanager = 0x5297080;
             public const Int32 glowindex = 0xA438;
             public const Int32 oFlags = 0x104;
-            public const Int32 forceJump = 0x51F9EC4;
-            public const Int32 forceAttack = 0x318179C;
+            public const Int32 forceJump = 0x51F8EF4;
+            public const Int32 forceAttack = 0x31807A8;
             public const Int32 m_iCrosshairId = 0xB3E4;
             public const Int32 m_flFlashDuration = 0xA420;
         }
@@ -37,6 +38,27 @@ namespace EliteHack
         {
             Console.Title = "EliteHack";
             title();
+            try
+            {
+                Process csgo = Process.GetProcessesByName("csgo")[0];
+                mem = new Memory("csgo");
+
+                foreach (ProcessModule module in csgo.Modules)
+                {
+
+                    if (module.ModuleName == "client.dll")
+
+                        client_dll = (int)module.BaseAddress;
+                }
+                UpdateConsole();
+                Console.WriteLine("[SUCCESS] Игра найдена! Чит готов к работе!");
+            }
+            catch
+            {
+                Console.WriteLine("[ERROR] Странная ошибка! Может не запущена CS:GO? Пакедава :)");
+                Console.ReadKey(true);
+                Environment.Exit(1);
+            }
             Thread glowthread = new Thread(new ThreadStart(GlowThread));
             glowthread.Start();
             Thread bhopthread = new Thread(new ThreadStart(BhopThread));
