@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -7,13 +7,15 @@ namespace EliteHack
     class Program
     {
 
-        #region Нужные переменные
+        #region Нужные переменные и функции
         static Memory mem;
         static int client_dll;
         static bool glow = false;
         static bool bhop = false;
         static bool trigger = false;
         static bool antiflash = false;
+        [DllImport("user32.dll")]
+        public static extern int GetAsyncKeyState(long vKey);
         #endregion
         #region Коды клавиш
         static long glowkey = 0x61;
@@ -151,8 +153,6 @@ namespace EliteHack
             #endregion
         }
         #region Интерфейс часть консоли
-        [DllImport("user32.dll")]
-        public static extern int GetAsyncKeyState(long vKey);
         // Заголовок
         private static void title()
         {
